@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Padeltoernooi {{PLAATS}}</title>
+<meta name="description" content="Padeltoernooi op {{DATUM}} in {{PLAATS}}. 48 spelers, vier rondes, elke set een nieuwe partner. Meld je aan en betaal online.">
+<meta name="theme-color" content="#1B4B9B">
+<meta property="og:title" content="Padeltoernooi {{PLAATS}}">
+<meta property="og:description" content="{{DATUM}}. 48 spelers, vier rondes, elke set een nieuwe partner. Meld je aan en betaal online.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23D6E94B'/%3E%3Cpath d='M3 10c8 3 18 3 26 0M3 22c8-3 18-3 26 0' fill='none' stroke='%230E1F3D' stroke-width='1.6' opacity='.55'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --baan:#1B4B9B;      /* baanblauw: het kunstgras */
+  --inkt:#0E1F3D;      /* diep marineblauw voor tekst */
+  --glas:#E3ECF5;      /* de glazen wand */
+  --bal:#D6E94B;       /* de bal */
+  --mist:#B4C7DD;      /* lijnen op de lichte ondergrond */
+  --zacht:#3A4F76;     /* bijtekst */
+  --display:'Big Shoulders Display','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --tekst:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --rand:clamp(20px,5vw,56px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--glas);color:var(--inkt);font:400 1.0625rem/1.6 var(--tekst);overflow-x:clip}
+h1,h2,p,dl,dd,ol,ul{margin:0;padding:0}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:var(--rand)}
+
+/* ---------- knop ---------- */
+.knop{display:inline-block;background:var(--bal);color:var(--inkt);font:700 1.125rem/1.1 var(--tekst);padding:1.05rem 1.9rem;border-radius:999px;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease}
+.knop:hover{transform:translateY(-2px);box-shadow:0 8px 0 -2px rgba(14,31,61,.35)}
+.knop:active{transform:translateY(0);box-shadow:none}
+.knop:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.knop[aria-disabled="true"]{background:rgba(255,255,255,.22);color:#fff;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--baan);color:#fff;overflow:hidden;padding-block:clamp(44px,9vw,112px) clamp(40px,7vw,80px)}
+.lijnen{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 36%,transparent 70%);mask-image:linear-gradient(to bottom,#000 0,#000 36%,transparent 70%)}
+.lijnen path{fill:none;stroke:#fff;stroke-opacity:.24;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:teken 1.8s cubic-bezier(.55,.1,.2,1) forwards}
+.lijnen path:nth-child(1){animation-delay:.1s}
+.lijnen path:nth-child(2){animation-delay:.25s}
+.lijnen path:nth-child(3){animation-delay:.4s}
+.lijnen path:nth-child(4){animation-delay:.55s}
+.lijnen path:nth-child(5){animation-delay:.7s}
+.lijnen path:nth-child(6){animation-delay:.85s}
+.lijnen path:nth-child(7){animation-delay:1s}
+.lijnen path.net{stroke-width:6;stroke-opacity:.34}
+@keyframes teken{to{stroke-dashoffset:0}}
+.hero .wrap{position:relative;display:grid;gap:clamp(28px,5vw,56px)}
+h1{font:900 clamp(4.4rem,26vw,16rem)/.84 var(--display);letter-spacing:-.015em}
+h1 span{display:block}
+.onder{display:grid;gap:clamp(28px,5vw,48px)}
+.intro{font:600 clamp(1.25rem,3.6vw,1.75rem)/1.25 var(--tekst);max-width:22ch}
+.hero .knop{margin-top:clamp(24px,4vw,36px)}
+.feiten{display:grid;border-top:2px solid rgba(255,255,255,.7);max-width:34rem}
+.feiten div{display:grid;grid-template-columns:6.75rem 1fr;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.4)}
+.feiten dt{color:rgba(255,255,255,.78)}
+.feiten dd{font-weight:600}
+@media (min-width:900px){
+  .onder{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+}
+
+/* ---------- secties ---------- */
+section{padding-block:clamp(56px,9vw,112px)}
+h2{font:800 clamp(2.4rem,7vw,4.2rem)/.95 var(--display);letter-spacing:-.005em;text-wrap:balance;margin-bottom:.45em}
+.tekstkolom p{max-width:58ch}
+.tekstkolom p+p{margin-top:1em}
+.stand{font:800 1.3em/1 var(--display);letter-spacing:.01em;white-space:nowrap}
+
+/* baan met wisselende partners */
+.format .wrap{display:grid;gap:clamp(32px,6vw,64px)}
+@media (min-width:860px){.format .wrap{grid-template-columns:minmax(0,1fr) 340px;align-items:center}}
+.sets{display:flex;gap:.5rem;margin:1.6rem 0 1rem}
+.sets button{font:600 1rem/1 var(--tekst);color:var(--inkt);background:transparent;border:2px solid var(--inkt);border-radius:999px;padding:.7rem 1.25rem;cursor:pointer;transition:background-color .15s ease,color .15s ease}
+.sets button:hover{background:rgba(14,31,61,.08)}
+.sets button[aria-pressed="true"]{background:var(--inkt);color:#fff}
+.sets button:focus-visible{outline:3px solid var(--baan);outline-offset:3px}
+.uitleg{min-height:3.2em;font-weight:600}
+.opvolger{color:var(--zacht);margin-top:1.4rem}
+.baan{width:100%;max-width:340px;height:auto;display:block;margin-inline:auto}
+.speler{transition:transform .65s cubic-bezier(.3,.75,.2,1)}
+
+/* punten */
+.punten{background:#fff}
+.punten .wrap{display:grid;gap:clamp(24px,5vw,56px)}
+@media (min-width:860px){.punten .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}}
+
+/* programma */
+.programma{list-style:none;border-top:2px solid var(--inkt);margin-top:2rem}
+.programma li{display:grid;grid-template-columns:5.5rem 1fr;gap:1rem;align-items:baseline;border-bottom:1px solid var(--mist)}
+.programma .tijd{font-variant-numeric:tabular-nums;font-weight:600}
+.programma .ronde{padding:1rem 0}
+.programma .ronde b{display:block;font:800 clamp(1.9rem,5vw,2.5rem)/1 var(--display)}
+.programma .ronde b+span{color:var(--zacht)}
+.programma .pauze{padding:.6rem 0;color:var(--zacht);font-size:.97rem}
+.programma .pauze b{font-weight:600;color:var(--inkt)}
+.programma .uit{padding:1rem 0}
+.programma .uit b{font:800 clamp(1.9rem,5vw,2.5rem)/1 var(--display)}
+
+/* vragen */
+.vragen{background:#fff}
+.vragen details{border-top:1px solid var(--mist)}
+.vragen details:last-of-type{border-bottom:1px solid var(--mist)}
+.vragen summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:1rem;padding:1.1rem 0;font-weight:600}
+.vragen summary::-webkit-details-marker{display:none}
+.vragen summary::after{content:"";flex:none;width:.7rem;height:.7rem;margin-top:.5rem;border-right:2.5px solid var(--baan);border-bottom:2.5px solid var(--baan);transform:rotate(45deg);transition:transform .2s ease}
+.vragen details[open] summary::after{transform:rotate(-135deg);margin-top:.8rem}
+.vragen summary:focus-visible{outline:3px solid var(--baan);outline-offset:2px}
+.vragen details p{padding:0 2rem 1.2rem 0;max-width:58ch;color:var(--zacht)}
+.vragen h2{margin-bottom:1rem}
+
+/* afsluiter */
+.afsluiter{background:var(--baan);color:#fff;text-align:left}
+.afsluiter p{max-width:36ch;font-size:1.2rem}
+.afsluiter .knop{margin-top:1.8rem}
+.afsluiter .contact{margin-top:2.4rem;font-size:.97rem;color:rgba(255,255,255,.8)}
+.afsluiter .contact a{color:#fff}
+
+@media (prefers-reduced-motion:reduce){
+  .lijnen path{animation:none;stroke-dashoffset:0}
+  .speler,.knop,.vragen summary::after{transition:none}
+}
+</style>
+</head>
+<body data-start="{{START}}">
+
+<header class="hero">
+  <svg class="lijnen" viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <path pathLength="1" d="M0 190H1240"/>
+    <path pathLength="1" d="M0 810H1240"/>
+    <path pathLength="1" d="M189 190V810"/>
+    <path pathLength="1" d="M1051 190V810"/>
+    <path pathLength="1" d="M189 500H1051"/>
+    <path pathLength="1" d="M0 190V810"/>
+    <path pathLength="1" class="net" d="M620 140V860"/>
+  </svg>
+  <div class="wrap">
+    <h1><span>Padel</span><span>toernooi</span></h1>
+    <div class="onder">
+      <div>
+        <p class="intro">Eén set. Vier games. Elke keer een nieuwe partner.</p>
+        <a class="knop" href="{{BETAALLINK}}" data-aanmelden>Aanmelden en betalen</a>
+      </div>
+      <dl class="feiten">
+        <div><dt>Wanneer</dt><dd>{{DATUM}}, start <span class="start">{{START}}</span> uur</dd></div>
+        <div><dt>Waar</dt><dd>{{PLAATS}}</dd></div>
+        <div><dt>Prijs</dt><dd>{{PRIJS}} per persoon</dd></div>
+        <div><dt>Plekken</dt><dd>48 spelers op 12 banen</dd></div>
+        <div><dt>Aanmelden</dt><dd>tot en met {{DEADLINE}}</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="format" aria-labelledby="t-format">
+  <div class="wrap">
+    <div class="tekstkolom">
+      <h2 id="t-format">Elke set een nieuwe partner</h2>
+      <p>Je speelt met vier mensen op één baan. Een set duurt tot een team vier games heeft, dus de uitslag is <span class="stand">4-0</span> tot en met <span class="stand">4-3</span>. Staat het 40-40? Dan beslist één punt (golden point).</p>
+      <p>Na elke set wissel je van partner, tot je met iedereen op de baan hebt gespeeld. Kies een set en zie wie waar staat.</p>
+      <div class="sets" role="group" aria-label="Kies een set">
+        <button type="button" data-set="0" aria-pressed="true">Set 1</button>
+        <button type="button" data-set="1" aria-pressed="false">Set 2</button>
+        <button type="button" data-set="2" aria-pressed="false">Set 3</button>
+      </div>
+      <p class="uitleg" id="uitleg" aria-live="polite">Set 1: jij speelt met speler B. Tegenstanders: C en D.</p>
+      <p class="opvolger">Na elke ronde ga je naar een andere baan. In ronde 4 speel je op de baan die bij je stand past: nummers 1 tot en met 4 op baan 1, nummers 5 tot en met 8 op baan 2, enzovoort.</p>
+    </div>
+
+    <svg class="baan" viewBox="0 0 240 440" aria-hidden="true" focusable="false">
+      <rect x="6" y="6" width="228" height="428" rx="16" fill="#BCD0E8"/>
+      <rect x="20" y="20" width="200" height="400" fill="#1B4B9B"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+        <rect x="20" y="20" width="200" height="400"/>
+        <path d="M20 81H220M20 359H220M120 81V359"/>
+      </g>
+      <line x1="12" y1="220" x2="228" y2="220" stroke="#fff" stroke-width="5"/>
+      <circle cx="12" cy="220" r="5" fill="#0E1F3D"/>
+      <circle cx="228" cy="220" r="5" fill="#0E1F3D"/>
+      <rect x="52" y="104" width="136" height="56" rx="28" fill="#fff" fill-opacity=".14"/>
+      <rect x="52" y="280" width="136" height="56" rx="28" fill="#fff" fill-opacity=".14"/>
+      <g font-family="Instrument Sans, Arial, sans-serif" font-size="11" fill="#fff" fill-opacity=".85">
+        <text x="30" y="98">jouw team</text>
+        <text x="30" y="352">tegenstanders</text>
+      </g>
+      <g font-family="Instrument Sans, Arial, sans-serif" font-weight="700" font-size="15" text-anchor="middle">
+        <g class="speler" id="sp-J" style="transform:translate(88px,132px)"><circle r="19" fill="#D6E94B"/><text dy=".35em" fill="#0E1F3D" font-size="13">Jij</text></g>
+        <g class="speler" id="sp-B" style="transform:translate(152px,132px)"><circle r="19" fill="#fff"/><text dy=".35em" fill="#0E1F3D">B</text></g>
+        <g class="speler" id="sp-C" style="transform:translate(88px,308px)"><circle r="19" fill="#fff"/><text dy=".35em" fill="#0E1F3D">C</text></g>
+        <g class="speler" id="sp-D" style="transform:translate(152px,308px)"><circle r="19" fill="#fff"/><text dy=".35em" fill="#0E1F3D">D</text></g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="punten" aria-labelledby="t-punten">
+  <div class="wrap">
+    <h2 id="t-punten">Je punten zijn je games</h2>
+    <div class="tekstkolom">
+      <p>Elke game die jouw team wint, is een punt voor jou. Win je een set met <span class="stand">4-2</span>, dan krijg jij 4 punten en je tegenstanders 2.</p>
+      <p>Verlies je met <span class="stand">3-4</span>? Dan houd je toch 3 punten over. In één ronde kun je maximaal 12 punten halen. Wie na ronde 4 de meeste punten heeft, wint het toernooi.</p>
+    </div>
+  </div>
+</section>
+
+<section class="programma-sectie" aria-labelledby="t-programma">
+  <div class="wrap">
+    <h2 id="t-programma">Het programma</h2>
+    <ol class="programma" id="programma">
+      <li class="uit" data-min="0" data-duur="10 min"><span class="tijd"></span><span><b>Inspelen</b></span></li>
+      <li class="ronde" data-min="10" data-duur="45 min"><span class="tijd"></span><span><b>Ronde 1</b><span>Drie sets, drie verschillende partners.</span></span></li>
+      <li class="pauze" data-min="55" data-duur="5 min"><span class="tijd"></span><span><b>Pauze</b> Eén speler per baan geeft de uitslagen door.</span></li>
+      <li class="ronde" data-min="60" data-duur="45 min"><span class="tijd"></span><span><b>Ronde 2</b><span>Nieuwe baan, nieuwe partners.</span></span></li>
+      <li class="pauze" data-min="105" data-duur="5 min"><span class="tijd"></span><span><b>Pauze</b> Uitslagen doorgeven en doorlopen naar je volgende baan.</span></li>
+      <li class="ronde" data-min="110" data-duur="45 min"><span class="tijd"></span><span><b>Ronde 3</b><span>De laatste ronde met een vaste indeling.</span></span></li>
+      <li class="pauze" data-min="155" data-duur="5 min"><span class="tijd"></span><span><b>Pauze</b> De stand bepaalt je baan in ronde 4.</span></li>
+      <li class="ronde" data-min="160" data-duur="45 min"><span class="tijd"></span><span><b>Ronde 4</b><span>Je speelt op de baan die bij je stand past.</span></span></li>
+      <li class="uit" data-min="205" data-duur=""><span class="tijd"></span><span><b>Prijsuitreiking</b></span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="vragen" aria-labelledby="t-vragen">
+  <div class="wrap">
+    <h2 id="t-vragen">Vragen</h2>
+    <details>
+      <summary>Moet ik zelf een partner meenemen?</summary>
+      <p>Nee. Je partner wisselt elke set en de organisatie maakt de indeling.</p>
+    </details>
+    <details>
+      <summary>Hoe betaal ik?</summary>
+      <p>Via de knop Aanmelden en betalen. Je plek is pas definitief als je betaling is gelukt.</p>
+    </details>
+    <details>
+      <summary>Hoe geef ik mijn uitslag door?</summary>
+      <p>In de pauze geeft één speler per baan de drie uitslagen door, via de QR-code bij de baan. Het kan ook op papier.</p>
+    </details>
+    <details>
+      <summary>Wat als ik te laat ben?</summary>
+      <p>Probeer een kwartier voor de start aanwezig te zijn. We beginnen direct na het inspelen en de rondes lopen door. Wie later komt, mist punten.</p>
+    </details>
+    <details>
+      <summary>Wat als ik toch niet kan?</summary>
+      <p>Mail vóór {{DEADLINE}} naar {{MAIL}}. Dan zoeken we samen een vervanger.</p>
+    </details>
+  </div>
+</section>
+
+<section class="afsluiter" aria-labelledby="t-doe">
+  <div class="wrap">
+    <h2 id="t-doe">Doe je mee?</h2>
+    <p>Er zijn 48 plekken. Je plek is van jou zodra je betaald hebt.</p>
+    <a class="knop" href="{{BETAALLINK}}" data-aanmelden>Aanmelden en betalen</a>
+    <p class="contact">Vragen? Mail naar <a href="mailto:{{MAIL}}">{{MAIL}}</a>.</p>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  /* aanmeldknoppen: zolang de betaallink nog niet is ingevuld, staan ze uit */
+  document.querySelectorAll('[data-aanmelden]').forEach(function(a){
+    if (/\{\{/.test(a.getAttribute('href') || '')) {
+      a.removeAttribute('href');
+      a.setAttribute('aria-disabled','true');
+      a.textContent = 'Aanmelden opent binnenkort';
+    }
+  });
+
+  /* programma: klokijden als de starttijd is ingevuld, anders de duur */
+  var start = (document.body.getAttribute('data-start') || '').replace('.', ':').trim();
+  var m = /^(\d{1,2}):(\d{2})$/.exec(start);
+  var basis = m ? (+m[1]) * 60 + (+m[2]) : null;
+  document.querySelectorAll('#programma li').forEach(function(li){
+    var t = li.querySelector('.tijd');
+    if (basis !== null) {
+      var min = basis + (+li.getAttribute('data-min'));
+      var u = Math.floor(min / 60) % 24, mm = min % 60;
+      t.textContent = (u < 10 ? '0' : '') + u + ':' + (mm < 10 ? '0' : '') + mm;
+    } else {
+      t.textContent = li.getAttribute('data-duur');
+    }
+  });
+
+  /* baan: wie staat waar per set */
+  var stand = [
+    { B:[152,132], C:[88,308],  D:[152,308], tekst:'Set 1: jij speelt met speler B. Tegenstanders: C en D.' },
+    { C:[152,132], B:[88,308],  D:[152,308], tekst:'Set 2: jij speelt met speler C. Tegenstanders: B en D.' },
+    { D:[152,132], B:[88,308],  C:[152,308], tekst:'Set 3: jij speelt met speler D. Tegenstanders: B en C.' }
+  ];
+  var knoppen = document.querySelectorAll('.sets button');
+  var uitleg = document.getElementById('uitleg');
+  function toon(i){
+    ['B','C','D'].forEach(function(l){
+      var p = stand[i][l];
+      document.getElementById('sp-' + l).style.transform = 'translate(' + p[0] + 'px,' + p[1] + 'px)';
+    });
+    uitleg.textContent = stand[i].tekst;
+    knoppen.forEach(function(b){ b.setAttribute('aria-pressed', String(+b.getAttribute('data-set') === i)); });
+  }
+  knoppen.forEach(function(b){
+    b.addEventListener('click', function(){ toon(+b.getAttribute('data-set')); });
+  });
+})();
+</script>
+</body>
+</html>
